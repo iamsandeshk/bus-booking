@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOBUS - Bus Ticket Booking</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <div class="nav__bar container">
+          <div class="nav_menu_btn" onclick="toggleNav()">☰</div>
+          <div class="logo">
+            <a><img src="logo.png" alt="logo" /></a>
+          </div>
+          <ul class="nav__links">
+            <li><a href="#">Bus Tickets</a></li>
+            <li><a href="#">Train Tickets</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Account</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="header__container container">
+        <h1>India's No.1 Online Bus Ticket Booking Site</h1>
+        <p>Quick and Easy Bus Ticket Booking</p>
+      </div>
+      <div class="booking__container container">
+        <form class="booking__form" id="bookingForm">
+          <div class="input__group">
+            <span>🚌</span>
+            <input type="text" id="fromAddress" placeholder="From" />
+          </div>
+          <div class="input__group">
+            <span>📍</span>
+            <input type="text" id="toAddress" placeholder="To" />
+          </div>
+          <div class="input__group">
+            <span>📅</span>
+            <input type="date" id="travelDate" />
+          </div>
+          <a href="#" class="btn" id="searchBusesBtn">Search Buses</a>
+        </form>
+      </div>
+    </header>
+
+    <section class="section__container">
+      <h2 class="section__header">Trending Offers</h2>
+      <div class="offer-cards">
+        <div class="offer-card">Save up to ₹500 on bus tickets</div>
+        <div class="offer-card">Save up to ₹300 on Karnataka RTC</div>
+        <div class="offer-card">Save up to ₹250 on APSRTC</div>
+        <div class="offer-card">Exclusive deals on IRCTC tickets</div>
+      </div>
+    </section>
+
+    <section class="section__container">
+      <h2 class="section__header">Government Buses</h2>
+      <div class="bus-cards">
+        <div class="bus-card">KSRTC</div>
+        <div class="bus-card">PALLAKI</div>
+        <div class="bus-card">AMBARI</div>
+      </div>
+    </section>
+
+    <section class="section__container">
+      <h2 class="section__header">Rising Stars on redBus</h2>
+      <p class="section__description">On time, friendly staff, top rated</p>
+    </section>
+
+    <section class="section__container">
+      <h2 class="section__header">Global Presence</h2>
+      <div class="flags">
+        <img src="colombia.png" alt="Colombia" />
+        <img src="india.png" alt="India" />
+        <img src="indonesia.png" alt="Indonesia" />
+        <img src="malaysia.png" alt="Malaysia" />
+        <img src="peru.png" alt="Peru" />
+        <img src="singapore.png" alt="Singapore" />
+        <img src="vietnam.png" alt="Vietnam" />
+        <img src="cambodia.png" alt="Cambodia" />
+      </div>
+    </section>
+
+    <section class="section__container">
+      <h2 class="section__header">FAQs related to Bus Tickets Booking</h2>
+      <div class="faq">
+        <div class="question">
+          What is the advantage of purchasing a bus ticket with GoBus?
+        </div>
+        <div class="answer">Answer 1</div>
+      </div>
+      <div class="faq">
+        <div class="question">Why book bus tickets online on GoBus?</div>
+        <div class="answer">Answer 2</div>
+      </div>
+      <div class="faq">
+        <div class="question">
+          Do I need to create an account on the GoBus site to book my bus
+          ticket?
+        </div>
+        <div class="answer">Answer 3</div>
+      </div>
+      <div class="faq">
+        <div class="question">Does bus booking online cost me more?</div>
+        <div class="answer">Answer 4</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__container container">
+        <div class="footer_col">
+          <h4>Popular Bus Routes</h4>
+          <ul class="footer__links">
+            <li><a href="#">Route 1</a></li>
+            <li><a href="#">Route 2</a></li>
+            <li><a href="#">Route 3</a></li>
+          </ul>
+        </div>
+        <div class="footer_col">
+          <h4>Popular Cities</h4>
+          <ul class="footer__links">
+            <li><a href="#">City 1</a></li>
+            <li><a href="#">City 2</a></li>
+            <li><a href="#">City 3</a></li>
+          </ul>
+        </div>
+        <div class="footer_col">
+          <h4>Popular Bus Operators</h4>
+          <ul class="footer__links">
+            <li><a href="#">Operator 1</a></li>
+            <li><a href="#">Operator 2</a></li>
+            <li><a href="#">Operator 3</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">
+        <p>© 2024 GoBus. All Rights Reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+      </div>
+    </footer>
+    <script>
+      // Toggle navigation menu for mobile view
+      const navMenuBtn = document.querySelector(".nav_menu_btn");
+      const navLinks = document.querySelector(".nav__links");
+
+      navMenuBtn.addEventListener("click", () => {
+        navLinks.classList.toggle("open");
+      });
+
+      // Enable or disable "Search Buses" button based on input fields
+      function validateForm() {
+        const fromAddress = document.getElementById("fromAddress").value;
+        const toAddress = document.getElementById("toAddress").value;
+        const travelDate = document.getElementById("travelDate").value;
+        const searchBusesBtn = document.getElementById("searchBusesBtn");
+
+        if (fromAddress && toAddress && travelDate) {
+          searchBusesBtn.href = "buses.html"; // Enable button
+        } else {
+          searchBusesBtn.href = "#"; // Disable button
+        }
+      }
+
+      // Add event listeners to validate form on input change
+      document
+        .getElementById("fromAddress")
+        .addEventListener("input", validateForm);
+      document
+        .getElementById("toAddress")
+        .addEventListener("input", validateForm);
+      document
+        .getElementById("travelDate")
+        .addEventListener("input", validateForm);
+    </script>
+  </body>
+</html>

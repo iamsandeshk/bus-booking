@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bus Ticket Booking</title>
+    <link rel="stylesheet" href="buses.css" />
+    <style>
+      /* Add some basic styling for the cancel button */
+      .cancel-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+      .ticket-btn {
+        background-color: #0066cc;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Available Buses Section -->
+    <div id="busesSection" class="container">
+      <button
+        class="btn"
+        id="backButton"
+        style="display: none"
+        onclick="goBack()"
+      >
+        Back
+      </button>
+      <div class="header">
+        <h1>Available Buses</h1>
+      </div>
+
+      <!-- Bus Card 1 -->
+      <div class="bus-card">
+        <div class="bus-info">
+          <h2>SRS Travels</h2>
+          <p><strong>Timing:</strong> 10:00 AM - 6:00 PM</p>
+          <p><strong>Rate:</strong> ₹1200</p>
+          <p><strong>Seats Available:</strong> 10</p>
+          <p><strong>Sleeper:</strong> Yes</p>
+        </div>
+        <div class="bus-details">
+          <div class="bus-rating">4.5 ⭐</div>
+          <a class="btn" href="#" onclick="showBookingForm('SRS Travels')"
+            >Book Now</a
+          >
+        </div>
+      </div>
+
+      <!-- Bus Card 2 -->
+      <div class="bus-card">
+        <div class="bus-info">
+          <h2>VRL Travels</h2>
+          <p><strong>Timing:</strong> 9:00 AM - 5:00 PM</p>
+          <p><strong>Rate:</strong> ₹1500</p>
+          <p><strong>Seats Available:</strong> 8</p>
+          <p><strong>Sleeper:</strong> No</p>
+        </div>
+        <div class="bus-details">
+          <div class="bus-rating">4.2 ⭐</div>
+          <a class="btn" href="#" onclick="showBookingForm('VRL Travels')"
+            >Book Now</a
+          >
+        </div>
+      </div>
+
+      <!-- Bus Card 3 -->
+      <div class="bus-card">
+        <div class="bus-info">
+          <h2>KSRTC</h2>
+          <p><strong>Timing:</strong> 11:00 AM - 7:00 PM</p>
+          <p><strong>Rate:</strong> ₹1300</p>
+          <p><strong>Seats Available:</strong> 12</p>
+          <p><strong>Sleeper:</strong> Yes</p>
+        </div>
+        <div class="bus-details">
+          <div class="bus-rating">4.8 ⭐</div>
+          <a class="btn" href="#" onclick="showBookingForm('KSRTC')"
+            >Book Now</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Form Section -->
+    <div id="bookingSection" class="container" style="display: none">
+      <button class="btn" onclick="showBuses()">Back</button>
+      <h1>Bus Ticket Booking</h1>
+      <form id="bookingForm">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required /><br />
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required /><br />
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option></select
+        ><br />
+
+        <label for="mobileNumber">Mobile Number:</label>
+        <input
+          type="tel"
+          id="mobileNumber"
+          name="mobileNumber"
+          required
+        /><br />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required /><br />
+
+        <label for="fromAddress">From Address:</label>
+        <input type="text" id="fromAddress" name="fromAddress" required /><br />
+
+        <label for="toAddress">To Address:</label>
+        <input type="text" id="toAddress" name="toAddress" required /><br />
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required /><br />
+
+        <label for="paymentDetails">Payment Details:</label>
+        <select id="paymentDetails" name="paymentDetails" required>
+          <option value="UPI">UPI</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Debit Card">Debit Card</option></select
+        ><br />
+
+        <button type="submit" onclick="submitBooking(event)">
+          Submit Booking
+        </button>
+      </form>
+
+      <h2>Booking Details</h2>
+      <div id="bookingDetails"></div>
+    </div>
+
+    <script>
+      // Show booking form and hide bus list
+      function showBookingForm(busName) {
+        document.getElementById("busesSection").style.display = "none";
+        document.getElementById("bookingSection").style.display = "block";
+        document.getElementById("backButton").style.display = "block"; // Show back button on booking page
+        localStorage.setItem("selectedBus", busName); // Save the bus name
+        loadBookingDetails(); // Load any existing booking details
+      }
+
+      // Show bus list and hide booking form
+      function showBuses() {
+        document.getElementById("bookingSection").style.display = "none";
+        document.getElementById("busesSection").style.display = "block";
+        document.getElementById("backButton").style.display = "none"; // Hide back button on bus page
+      }
+
+      // Handle form submission
+      function submitBooking(event) {
+        event.preventDefault();
+        const form = document.getElementById("bookingForm");
+        const formData = new FormData(form);
+        const booking = Object.fromEntries(formData.entries());
+        const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+        bookings.push(booking);
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        displayBookingDetails(); // Display updated booking details
+        form.reset(); // Reset the form after submission
+      }
+
+      // Display stored booking details
+      function displayBookingDetails() {
+        const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+        const busName = localStorage.getItem("selectedBus"); // Get the selected bus name
+        const detailsHtml = bookings
+          .map(
+            (booking, index) => `
+                        <div class="booking-entry">
+                            ${Object.entries(booking)
+                              .map(
+                                ([key, value]) =>
+                                  `<p><strong>${
+                                    key.charAt(0).toUpperCase() +
+                                    key.slice(1).replace(/([A-Z])/g, " $1")
+                                  }: </strong>${value}</p>`
+                              )
+                              .join("")}
+                            <p><strong>Bus Name: </strong>${busName}</p> <!-- Display bus name after other details -->
+                            <button class="cancel-btn" onclick="cancelBooking(${index})">Cancel</button>
+                        </div>`
+          )
+          .join("");
+        document.getElementById(
+          "bookingDetails"
+        ).innerHTML = `<h3>Your Booking Details:</h3>${detailsHtml}`;
+      }
+
+      // Cancel a specific booking
+      function cancelBooking(index) {
+        const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+        bookings.splice(index, 1); // Remove the booking at the specified index
+        localStorage.setItem("bookings", JSON.stringify(bookings));
+        displayBookingDetails(); // Refresh the displayed booking details
+      }
+
+      // Load booking details when booking form is shown
+      function loadBookingDetails() {
+        displayBookingDetails();
+      }
+
+      // Initial call to load booking details if present
+      document.addEventListener("DOMContentLoaded", function () {
+        loadBookingDetails();
+      });
+    </script>
+  </body>
+</html>
